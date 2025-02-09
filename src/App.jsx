@@ -8,7 +8,7 @@ function App() {
 
     return (
         <div className="flex flex-col h-screen bg-background-light text-background-dark">
-            <div className="flex flex-col flex-1 bg-primary">
+            <div className="flex flex-col flex-1 bg-background-light">
                 <Header />
                 <main className="flex flex-1 justify-center items-center gap-7">
                     <TodoList todos={todos} setTodos={setTodos} />
