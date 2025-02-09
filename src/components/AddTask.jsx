@@ -1,5 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import '../index.css'
+
 
 function AddTask({ setTodos }) {
     const [newTodo, setNewTodo] = useState("");
@@ -29,7 +31,8 @@ function AddTask({ setTodos }) {
                 />
                 <button
                     onClick={addTodo}
-                    className="p-2 border-2 border-black bg-background-light hover:bg-background-dark hover:text-white transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl"
+                    className="p-2 border-2 
+                    text-white border-secondary bg-secondary hover:bg-background-secondary hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl"
                 >
                     Add Task
                 </button>
