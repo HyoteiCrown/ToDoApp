@@ -21,7 +21,7 @@ function AddTask({ setTodos }) {
 
   return (
     <section>
-      <div className="flex flex-col gap-2">
+      <div className="flex gap-3">
         <input
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
@@ -29,13 +29,14 @@ function AddTask({ setTodos }) {
           placeholder="New Task"
           type="text"
         />
-        <button
+         <button
           onClick={addTodo}
           className="p-2 border-2 
                     text-white border-secondary bg-secondary hover:bg-background-secondary hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl"
         >
           Add Task
         </button>
+       
       </div>
     </section>
   );

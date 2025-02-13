@@ -1,23 +1,22 @@
-import { useState } from "react";
+import {useState } from "react";
 import TodoItem from "./TodoItem";
 import PropTypes from "prop-types";
 
 function TodoList({ todos, setTodos }) {
   const [filter, setFilter] = useState("all");
+  
 
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const deleteTodo= (id) => {
+    setTodos(todos.filter((todo) => todo.id!== id));
   };
 
   const completeToggle = (id) => {
     setTodos(
       todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: true } : todo
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
-    setTimeout(() => {
-      setTodos(todos.filter((todo) => todo.id !== id));
-    }, 700);
+    
   };
 
   const editTodo = (id, newText) => {
@@ -37,6 +36,19 @@ function TodoList({ todos, setTodos }) {
     return true;
   });
 
+  const sortedTodos =[...filteredTodos].sort((a,b) =>{
+    if(a.completed === b.completed) return 0;
+    return a.completed ? 1: 
+    -1;
+  });
+
+  const clearTodos = ()=>{
+    setTodos([]);
+    localStorage.removeItem('todos')
+}
+
+
+
   return (
     <section className="w-1/2">
       <div className="flex flex-col bg-primary border-0 rounded-2xl p-3">
@@ -47,16 +59,20 @@ function TodoList({ todos, setTodos }) {
           <button className="bg-secondary py-2 px-4 rounded-r-md focus:bg-accent" onClick={() => setFilter("completed")}>Completed</button>
         </span>
         <ul className="flex flex-col m-10 gap-2">
-          {filteredTodos.map((todo) => (
+          {sortedTodos.map((todo) => (
             <TodoItem
               key={todo.id}
               todo={todo}
               editTodo={editTodo}
-              deleteTodo={deleteTodo}
               completeToggle={completeToggle}
+              deleteTodo={deleteTodo}
+          
             />
           ))}
         </ul>
+        <button
+                onClick={clearTodos} className="p-2 border-2 self-end mb-4
+                    text-white border-secondary bg-secondary hover:bg-background-secondary hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl">Clear All</button>
       </div>
     </section>
   );
