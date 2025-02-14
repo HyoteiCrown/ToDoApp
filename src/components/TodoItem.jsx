@@ -1,13 +1,15 @@
 import PropTypes from "prop-types";
 import { useState, useRef, useCallback } from "react";
+import {useTheme} from '../ThemeContext'
 
 function TodoItem({ todo, deleteTodo, editTodo, completeToggle }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(todo.text);
   const inputRef = useRef(null);
+  const {isDarkMode} = useTheme();
 
 
-  const handleSave = (useCallback(() => {
+  const handleSave = useCallback(() => {
     if (editedText.trim() === "") {
       alert("You can't save an empty task");
     } else {
@@ -15,7 +17,7 @@ function TodoItem({ todo, deleteTodo, editTodo, completeToggle }) {
       setIsEditing(false);
       inputRef.current.focus();
     }
-    }, [editedText, editTodo, todo.id,setIsEditing, inputRef]));
+  }, [editedText, editTodo, todo.id, setIsEditing, inputRef]);
   
 
 
@@ -31,7 +33,7 @@ function TodoItem({ todo, deleteTodo, editTodo, completeToggle }) {
   };
 
   return (
-    <li className="flex justify-between items-center p-2 border-b-2 border-secondary w-full ">
+    <li className={`flex justify-between items-center p-2 border-b-2 text-tcolor w-full`}>
       {isEditing ? (
         <input
           id="focus_input"
@@ -40,7 +42,7 @@ function TodoItem({ todo, deleteTodo, editTodo, completeToggle }) {
           onChange={onEditing}
           ref={inputRef}
           onKeyDown={handleKeyDown}
-          className="p-1  animate-pulse rounded-2xl focus:outline-none "
+          className='animate-pulse rounded-2xl focus:outline-none'
         />
       ) : (
         <div
@@ -54,7 +56,7 @@ function TodoItem({ todo, deleteTodo, editTodo, completeToggle }) {
             type="checkbox"
             checked={todo.completed}
             onChange={() => completeToggle(todo.id)}
-            className="mr-2.5"
+            className={`mr-2.5 ${isDarkMode ? `text-tcolor-dark` : `text-tcolor`}`} 
           />
           {todo.text}
         </div>
@@ -63,24 +65,33 @@ function TodoItem({ todo, deleteTodo, editTodo, completeToggle }) {
         {isEditing ? (
           <button
             onClick={handleSave}
-            className="p-2 border-2 
-                    text-white border-secondary bg-secondary hover:bg-background-secondary hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl"
+            className={`p-2 border-none hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl ${
+              isDarkMode 
+                ? 'text-tcolor-dark bg-secondary-dark hover:bg-background-dark' 
+                : 'text-tcolor bg-secondary hover:bg-secondary'
+            }`}
           >
             Save
           </button>
         ) : (
           <button
             onClick={() => setIsEditing(true)}
-            className="p-2 border-2 
-                    text-white border-secondary bg-secondary hover:bg-background-secondary hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl"
+            className={`p-2 border-none hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl ${
+              isDarkMode 
+                ? 'text-tcolor-dark bg-secondary-dark hover:bg-background-dark' 
+                : 'text-tcolor bg-secondary hover:bg-secondary'
+            }`}
           >
             Edit
           </button>
         )}
         <button
           onClick={() => deleteTodo(todo.id)}
-          className="p-2 border-2 
-                    text-white border-secondary bg-secondary hover:bg-background-secondary hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl"
+          className={`p-2 border-none hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl ${
+            isDarkMode 
+              ? 'text-tcolor-dark bg-secondary-dark hover:bg-background-dark' 
+              : 'text-tcolor bg-secondary hover:bg-secondary'
+          }`}
         >
           Delete
         </button>
@@ -88,7 +99,6 @@ function TodoItem({ todo, deleteTodo, editTodo, completeToggle }) {
     </li>
   );
 }
-
 TodoItem.propTypes = {
   todo: PropTypes.shape({
     id: PropTypes.number.isRequired,

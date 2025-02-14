@@ -1,8 +1,10 @@
 import { useState } from "react";
+import {useTheme } from '../ThemeContext'
 import PropTypes from "prop-types";
 import "../index.css";
 
 function AddTask({ setTodos }) {
+  const {isDarkMode}= useTheme()
   const [newTodo, setNewTodo] = useState("");
 
   const addTodo = () => {
@@ -20,19 +22,26 @@ function AddTask({ setTodos }) {
   };
 
   return (
-    <section>
-      <div className="flex gap-3">
+    <section
+    className={`flex gap-3 ${
+      isDarkMode ? 'bg-background-dark text-tcolor-dark' : 'bg-background text-tcolor'
+    }`}>
+      <div className="flex gap-4">
         <input
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
-          className="p-2 border-2 border-black bg-white focus:scale-110 transition-all ease-in-out duration-150 rounded-2xl"
+          className={`p-2 border-2 focus:scale-110 transition-all ease-in-out duration-150 rounded-2xl ${isDarkMode ? 'bg-background-dark text-tcolor-dark' : 'bg-background text-tcolor'}`}
           placeholder="New Task"
           type="text"
         />
          <button
           onClick={addTodo}
-          className="p-2 border-2 
-                    text-white border-secondary bg-secondary hover:bg-background-secondary hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl"
+          className={`p-2 border-none hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl ${
+            isDarkMode 
+              ? 'text-tcolor-dark bg-secondary-dark hover:bg-background-dark' 
+              : 'text-tcolor bg-secondary hover:bg-secondary'
+          }`}
+          
         >
           Add Task
         </button>
