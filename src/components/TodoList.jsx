@@ -1,4 +1,4 @@
-import {useState } from "react";
+import {useState, useCallback, useMemo } from "react";
 import TodoItem from "./TodoItem";
 import PropTypes from "prop-types";
 
@@ -6,9 +6,12 @@ function TodoList({ todos, setTodos }) {
   const [filter, setFilter] = useState("all");
   
 
-  const deleteTodo= (id) => {
+  
+  const deleteTodo = useCallback((id) =>{
     setTodos(todos.filter((todo) => todo.id!== id));
-  };
+  },[todos,setTodos]);
+
+
 
   const completeToggle = (id) => {
     setTodos(
@@ -30,17 +33,21 @@ function TodoList({ todos, setTodos }) {
     );
   };
 
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === "active") return !todo.completed;
-    if (filter === "completed") return todo.completed;
-    return true;
-  });
+  const filteredTodos = useMemo(()=>{
+    if(filter === "active") return todos.filter((todo) =>!todo.completed);
+    if(filter === "completed") return todos.filter((todo) => todo.completed);
+    return todos;
+  },[todos,filter])
 
-  const sortedTodos =[...filteredTodos].sort((a,b) =>{
-    if(a.completed === b.completed) return 0;
-    return a.completed ? 1: 
-    -1;
-  });
+
+
+  const sortedTodos = useMemo(()=>{
+    return [...filteredTodos].sort((a,b) =>{
+      if(a.completed === b.completed) return 0;
+      return a.completed? 1: 
+      -1;
+    });
+  },[filteredTodos])
 
   const clearTodos = ()=>{
     setTodos([]);

@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 
 function TodoItem({ todo, deleteTodo, editTodo, completeToggle }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(todo.text);
   const inputRef = useRef(null);
 
-  const handleSave = () => {
+
+  const handleSave = (useCallback(() => {
     if (editedText.trim() === "") {
       alert("You can't save an empty task");
     } else {
@@ -14,7 +15,9 @@ function TodoItem({ todo, deleteTodo, editTodo, completeToggle }) {
       setIsEditing(false);
       inputRef.current.focus();
     }
-  };
+    }, [editedText, editTodo, todo.id,setIsEditing, inputRef]));
+  
+
 
   const onEditing = (e) => {
     setEditedText(e.target.value);
