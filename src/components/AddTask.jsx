@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {useTheme } from '../ThemeContext'
 import PropTypes from "prop-types";
+import ButtonMain from "./ButtonMain";
 import "../index.css";
 
 function AddTask({ setTodos }) {
@@ -34,17 +35,7 @@ function AddTask({ setTodos }) {
           placeholder="New Task"
           type="text"
         />
-         <button
-          onClick={addTodo}
-          className={`p-2 border-none hover:transform hover:scale-110 transition-all ease-in-out duration-150 rounded-2xl ${
-            isDarkMode 
-              ? 'text-tcolor-dark bg-secondary-dark hover:bg-background-dark' 
-              : 'text-tcolor bg-secondary hover:bg-secondary'
-          }`}
-          
-        >
-          Add Task
-        </button>
+         <ButtonMain onClick={addTodo}>Add Task</ButtonMain>
        
       </div>
     </section>
