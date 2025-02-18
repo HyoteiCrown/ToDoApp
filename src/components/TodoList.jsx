@@ -2,11 +2,12 @@ import { useState, useCallback, useMemo } from "react";
 import { useTheme } from "../ThemeContext";
 import TodoItem from "./TodoItem";
 import PropTypes from "prop-types";
+import { getThemeClasses } from "./Header";
 
 function TodoList({ todos, setTodos }) {
   const [filter, setFilter] = useState("all");
   const { isDarkMode } = useTheme();
-
+  const { bg, text } = getThemeClasses(isDarkMode);
   const deleteTodo = useCallback(
     (id) => {
       setTodos(todos.filter((todo) => todo.id !== id));
@@ -40,10 +41,7 @@ function TodoList({ todos, setTodos }) {
   }, [todos, filter]);
 
   const sortedTodos = useMemo(() => {
-    return [...filteredTodos].sort((a, b) => {
-      if (a.completed === b.completed) return 0;
-      return a.completed ? 1 : -1;
-    });
+    return [...filteredTodos].sort((a, b) => (a.completed === b.completed ? 0 : a.completed ? 1 : -1));
   }, [filteredTodos]);
 
   const clearTodos = () => {
@@ -67,31 +65,19 @@ function TodoList({ todos, setTodos }) {
         <h2 className=" sticky text-2xl font-bold">Tasks:</h2>
         <span className="inline-flex rounded-md">
           <button
-            className={`${
-              isDarkMode
-                ? "bg-secondary-dark text-tcolor-dark"
-                : "bg-secondary text-tcolor"
-            } border-none not-last:py-2 px-4 rounded-l-md focus:bg-accent`}
+            className={`${bg} ${text} border-none not-last:py-2 px-4 rounded-l-md focus:bg-accent`}
             onClick={() => setFilter("all")}
           >
             All
           </button>
           <button
-            className={`${
-              isDarkMode
-                ? "bg-secondary-dark text-tcolor-dark"
-                : "bg-secondary text-tcolor"
-            } border-none not-last:py-2 px-4  focus:bg-accent`}
+            className={`${bg} ${text} border-none not-last:py-2 px-4 focus:bg-accent`}
             onClick={() => setFilter("active")}
           >
             Active
           </button>
           <button
-            className={`${
-              isDarkMode
-                ? "bg-secondary-dark text-tcolor-dark"
-                : "bg-secondary text-tcolor"
-            } border-none not-last:py-2 px-4 rounded-r-md focus:bg-accent`}
+            className={`${bg} ${text} border-none not-last:py-2 px-4 rounded-r-md focus:bg-accent`}
             onClick={() => setFilter("completed")}
           >
             Completed

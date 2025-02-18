@@ -16,7 +16,6 @@ const ButtonMain = ({ children, onClick }) => {
 
 ButtonMain.propTypes = {
     children: PropTypes.node.isRequired,
-    isDarkMode: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
 };
 

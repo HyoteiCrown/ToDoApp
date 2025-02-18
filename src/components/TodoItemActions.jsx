@@ -19,21 +19,16 @@ const TodoItemActions = ({
       setIsEditing(false);
       inputRef.current.focus();
     }
-  }, [editedText, editTodo, todo.id, setIsEditing, inputRef]);
+  }, [editedText, editTodo, todo.id, inputRef, setIsEditing]);
 
   return (
     <div className="flex gap-2">
       {isEditing ? (
-        <ButtonMain
-        onClick={handleSave}
-        >Save</ButtonMain>
+        <ButtonMain onClick={handleSave}>Save</ButtonMain>
       ) : (
-      <ButtonMain
-        onClick={() => setIsEditing(true)}
-        >Edit</ButtonMain>
+        <ButtonMain onClick={() => setIsEditing(true)}>Edit</ButtonMain>
       )}
-      <ButtonMain 
-       onClick={() => deleteTodo(todo.id)}>Delete</ButtonMain>
+      <ButtonMain onClick={() => deleteTodo(todo.id)}>Delete</ButtonMain>
     </div>
   );
 };
@@ -46,7 +41,6 @@ TodoItemActions.propTypes = {
   editedText: PropTypes.string.isRequired,
   inputRef: PropTypes.object.isRequired,
   isEditing: PropTypes.bool.isRequired,
-  isDarkMode: PropTypes.bool.isRequired,
 };
 
 export default TodoItemActions;

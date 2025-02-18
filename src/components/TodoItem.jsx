@@ -1,24 +1,26 @@
 import PropTypes from "prop-types";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import TodoItemText from "./TodoItemText";
 import TodoItemActions from "./TodoItemActions";
+import useTodoStore from "../store/usetodoStore";
 
 function TodoItem({ todo, deleteTodo, completeToggle, handleSave, editTodo }) {
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(todo.text);
-  const inputRef = useRef(null);
+const { editingTodoId, editedText, setEditingTodo, clearEditingTodo } = useTodoStore();
+const isEditing = editingTodoId == todo.id;
+const inputRef = useRef(null);
+
 
   
   const onEditing = (e) => {
-    setEditedText(e.target.value);
+    setEditingTodo(todo.id,e.target.value);
     inputRef.current.focus();
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSave(editedText);
-      setIsEditing(false);
+      clearEditingTodo();
     }
   };
 
@@ -39,7 +41,7 @@ function TodoItem({ todo, deleteTodo, completeToggle, handleSave, editTodo }) {
       ) : (
         <TodoItemText todo={todo} completeToggle={completeToggle} />
       )}
-      <TodoItemActions todo={todo} deleteTodo={deleteTodo} setIsEditing={setIsEditing} editTodo={editTodo} editedText={editedText} inputRef={inputRef} isEditing={isEditing}/>
+      <TodoItemActions todo={todo} deleteTodo={deleteTodo} setIsEditing={()=>setEditingTodo(todo.id,todo.text)} editTodo={editTodo} editedText={editedText} inputRef={inputRef} isEditing={isEditing}/>
     </li>
   );
 }
