@@ -1,45 +1,38 @@
-import { useCallback } from "react";
 import PropTypes from "prop-types";
-import ButtonMain from "./ButtonMain";
+import ButtonCircle from "./ButtonCircle";
+import { FaRegEdit, FaTrashAlt, FaRegSave } from "react-icons/fa";
 
-const TodoItemActions = ({
-  todo,
-  deleteTodo,
-  setIsEditing,
-  editTodo,
-  editedText,
-  inputRef,
-  isEditing,
-}) => {
-  const handleSave = useCallback(() => {
-    if (editedText.trim() === "") {
-      alert("You can't save an empty task");
-    } else {
-      editTodo(todo.id, editedText);
-      setIsEditing(false);
-      inputRef.current.focus();
-    }
-  }, [editedText, editTodo, todo.id, inputRef, setIsEditing]);
+function TodoItemActions({ todo, deleteTodo, setIsEditing, isEditing }) {
+  const handleSave = () => {
+    setIsEditing(false);
+  };
 
   return (
     <div className="flex gap-2">
       {isEditing ? (
-        <ButtonMain onClick={handleSave}>Save</ButtonMain>
+        <ButtonCircle onClick={handleSave}>
+          <FaRegSave />
+        </ButtonCircle>
       ) : (
-        <ButtonMain onClick={() => setIsEditing(true)}>Edit</ButtonMain>
+        <ButtonCircle onClick={() => setIsEditing(true)}>
+          <FaRegEdit />
+        </ButtonCircle>
       )}
-      <ButtonMain onClick={() => deleteTodo(todo.id)}>Delete</ButtonMain>
+      <ButtonCircle onClick={() => deleteTodo(todo.id)}>
+        <FaTrashAlt />
+      </ButtonCircle>
     </div>
   );
-};
+}
 
 TodoItemActions.propTypes = {
-  todo: PropTypes.object.isRequired,
+  todo: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+  }).isRequired,
   deleteTodo: PropTypes.func.isRequired,
   setIsEditing: PropTypes.func.isRequired,
-  editTodo: PropTypes.func.isRequired,
-  editedText: PropTypes.string.isRequired,
-  inputRef: PropTypes.object.isRequired,
   isEditing: PropTypes.bool.isRequired,
 };
 

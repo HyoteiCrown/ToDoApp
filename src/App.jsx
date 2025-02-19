@@ -1,40 +1,40 @@
-import { useEffect, useState } from "react";
-import {useTheme} from './ThemeContext';
+import { useEffect } from "react";
 import Header from "./components/Header";
 import TodoList from "./components/TodoList";
 import AddTask from "./components/AddTask";
+import useTodoStore from "./store/todoStore";
+import useThemeStore from "./store/themeStore";
+import { getThemeClasses } from "./utils/themeUtils";
 
 function App() {
-    const {isDarkMode} = useTheme();
-    const [todos, setTodos] = useState(()=>{
-        const storedTodos = localStorage.getItem('todos');
-        return storedTodos ? JSON.parse(storedTodos) : []
-    }); 
+  const { isDarkMode } = useThemeStore();
+  const { todos } = useTodoStore();
+  const theme = getThemeClasses(isDarkMode);
 
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
-    useEffect(()=>{
-        localStorage.setItem('todos', JSON.stringify(todos), []);
-    })
-
-    
-
-    return (
-        <div className={`flex flex-col h-screen ${
-            isDarkMode ? 'bg-background-dark text-text-light' : 'bg-background-light text-text-dark'
-          }`}>
-            <div className="flex flex-col flex-1 bg-background-light">
-                <Header />
-                <main className="flex flex-1 flex-col justify-center items-center gap-7">
-                    <AddTask setTodos={setTodos} /> 
-                    
-                    <TodoList todos={todos} setTodos={setTodos} />
-                </main>
-                <footer>
-                    <p>Copyright 2025</p>
-                </footer>
-            </div>
-        </div>
-    );
+  return (
+    <div
+      className={`flex flex-col h-screen transition-colors duration-150 ${theme.bg} ${theme.text}`}
+    >
+      <div className="flex flex-col flex-1 transition-colors duration-150">
+        <Header />
+        <main
+          className={`flex flex-1 flex-col justify-center items-center gap-7 transition-colors duration-150 ${theme.bg}`}
+        >
+          <AddTask />
+          <TodoList />
+        </main>
+        <footer
+          className={`transition-colors duration-150 ${theme.bg} ${theme.text}`}
+        >
+          <p>Copyright 2025</p>
+        </footer>
+      </div>
+    </div>
+  );
 }
 
 export default App;

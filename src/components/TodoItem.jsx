@@ -1,27 +1,21 @@
 import PropTypes from "prop-types";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import TodoItemText from "./TodoItemText";
 import TodoItemActions from "./TodoItemActions";
-import useTodoStore from "../store/usetodoStore";
 
-function TodoItem({ todo, deleteTodo, completeToggle, handleSave, editTodo }) {
+function TodoItem({ todo, toggleComplete, deleteTodo, editTodo }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedText, setEditedText] = useState(todo.text);
+  const inputRef = useRef(null);
 
-const { editingTodoId, editedText, setEditingTodo, clearEditingTodo } = useTodoStore();
-const isEditing = editingTodoId == todo.id;
-const inputRef = useRef(null);
-
-
-  
   const onEditing = (e) => {
-    setEditingTodo(todo.id,e.target.value);
+    setEditedText(e.target.value);
     inputRef.current.focus();
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSave(editedText);
-      clearEditingTodo();
-    }
+  const handleEdit = () => {
+    editTodo(todo.id, editedText);
+    setIsEditing(false);
   };
 
   return (
@@ -30,32 +24,30 @@ const inputRef = useRef(null);
     >
       {isEditing ? (
         <input
-          id="focus_input"
-          type="text"
+          ref={inputRef}
           value={editedText}
           onChange={onEditing}
-          ref={inputRef}
-          onKeyDown={handleKeyDown}
+          onBlur={handleEdit}
           className="animate-pulse rounded-2xl focus:outline-none"
         />
       ) : (
-        <TodoItemText todo={todo} completeToggle={completeToggle} />
+        <TodoItemText todo={todo} toggleComplete={toggleComplete} />
       )}
-      <TodoItemActions todo={todo} deleteTodo={deleteTodo} setIsEditing={()=>setEditingTodo(todo.id,todo.text)} editTodo={editTodo} editedText={editedText} inputRef={inputRef} isEditing={isEditing}/>
+      <TodoItemActions
+        todo={todo}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        deleteTodo={deleteTodo}
+      />
     </li>
   );
 }
 
 TodoItem.propTypes = {
-  todo: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
-  }).isRequired,
+  todo: PropTypes.object.isRequired,
+  toggleComplete: PropTypes.func.isRequired,
   deleteTodo: PropTypes.func.isRequired,
   editTodo: PropTypes.func.isRequired,
-  completeToggle: PropTypes.func.isRequired,
-  handleSave: PropTypes.func.isRequired,
 };
 
 export default TodoItem;
