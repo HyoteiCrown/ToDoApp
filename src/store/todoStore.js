@@ -2,6 +2,12 @@ import { create } from "zustand";
 
 const useTodoStore = create((set) => ({
   todos: JSON.parse(localStorage.getItem("todos")) || [],
+  isMoving: false,
+  setIsMoving: (isMoving) => set({ isMoving }),
+  isActive: false,
+  setIsActive: (isActive) => set({ isActive }),
+  isInputActive: false,
+  setIsInputActive: (isInputActive) => set({ isInputActive }),
   addTodo: (todo) =>
     set((state) => {
       const newTodos = [...state.todos, todo];

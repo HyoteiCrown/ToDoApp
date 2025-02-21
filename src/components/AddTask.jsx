@@ -1,18 +1,25 @@
 import { useState } from 'react';
+import InputField from './InputField';
+import AcceptButton from './AcceptButton';
 import ButtonMain from './ButtonMain';
-import '../index.css';
 import useTodoStore from '../store/todoStore';
-import useThemeStore from '../store/themeStore';
-import { getThemeClasses } from '../utils/themeUtils';
+
+
 
 function AddTask() {
-  const { isDarkMode } = useThemeStore();
-  const theme = getThemeClasses(isDarkMode);
   const [newTodo, setNewTodo] = useState("");
-  const addTodo = useTodoStore((state)=> state.addTodo);
+  const addTodo = useTodoStore((state) => state.addTodo);
+  const { isActive, setIsMoving, setIsActive, setIsInputActive } = useTodoStore();
 
-  const handleAddTodo =() =>{
-    if (newTodo.trim() === ""){
+
+  function handleClick(){
+    setIsActive(!isActive);
+    setIsMoving((prev) => !prev);
+    setIsInputActive((prev) => !prev);
+  }
+
+  const handleAddTodo = () => {
+    if (newTodo.trim() === "") {
       alert("You can't add an empty task");
       return;
     }
@@ -23,23 +30,25 @@ function AddTask() {
     };
     addTodo(todo);
     setNewTodo("");
+  };
+
+  function closeTodo(){
+    setNewTodo('');
+    setIsActive(false);
+    setIsMoving(false);
+    setIsInputActive(false);
   }
 
   return (
-    <section className="flex gap-3">
-      <div className="flex gap-4">
-        <input
+    <section className="flex items-center gap-2 justify-center">
+      <div className="flex gap-3">
+        <InputField
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
-          className={`p-2 border-2 rounded-2xl transition-colors duration-150
-            ${theme.bg} ${theme.text}
-            ${isDarkMode ? 'border-secondary-dark' : 'border-secondary'}
-            focus:scale-110
-          `}
           placeholder="New Task"
-          type="text"
         />
-        <ButtonMain onClick={handleAddTodo}>Add Task</ButtonMain>
+        <AcceptButton onClick={handleAddTodo} />
+        <ButtonMain onClick={isActive ? closeTodo : handleClick}></ButtonMain>
       </div>
     </section>
   );

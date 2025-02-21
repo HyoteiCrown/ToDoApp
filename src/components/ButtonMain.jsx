@@ -1,33 +1,52 @@
-import PropTypes from "prop-types";
-import useThemeStore from "../store/themeStore";
 
-const ButtonMain = ({ children, onClick }) => {
-  const { isDarkMode } = useThemeStore();
+import PropTypes from 'prop-types';
+import useTodoStore  from '../store/todoStore';
+import useThemeStore from '../store/themeStore';
+
+const ButtonMain = ({ onClick }) => {
+  const { isActive, isMoving } = useTodoStore();
+  const {isDarkMode} = useThemeStore();
+
   return (
-    <button
-      className={`px-4 py-2 border-none rounded-xl relative overflow-hidden transition-all duration-200
-                ${
-                  isDarkMode
-                    ? "text-tcolor-dark bg-secondary-dark"
-                    : "text-tcolor bg-secondary"
-                }
-                before:absolute before:inset-0 before:transition-transform before:duration-300
-                before:-translate-x-full hover:before:translate-x-0
-                hover:-translate-y-0.5
-                ${isDarkMode ? "before:bg-accent/80" : "before:bg-accent/60"}
-            `}
-      onClick={onClick}
-    >
-      <span className="relative z-10 inline-flex items-center gap-2">
-        {children}
-      </span>
-    </button>
+    <div>
+      <button
+        onClick={onClick}
+        className={`
+          w-12 h-12 ${isDarkMode ? `bg-primary hover:bg-gradient-to-tr from-primary-dark to-accent-dark transition-colors duration-500 `  : `bg-primary-dark hover:bg-gradient-to-tr from-primary to-accent transition-colors duration-500 `} rounded-full text-white flex items-center justify-center relative group hover:bg-gradient-to-tr from-primary-dark to-accent-dark transition-colors duration-500 hover:scale-110 ${isMoving ? "translate-x-4 transition-transform  duration-500 ease bg-red-500 group-hover:bg-gradient-to-tr from-red-500 to-accent" : "translate-x-0 transition-transform duration-500"}`}
+      >
+        <span
+          className={`
+    absolute 
+    w-1 
+    h-6 
+    bg-white
+    transition-transform 
+    duration-300
+    ${isActive ? "rotate-45" : "rotate-0"}
+   `}
+        ></span>
+        <span
+          className={`
+      absolute 
+      w-1 
+      h-6 
+      bg-white 
+      transition-transform 
+      duration-300
+      ${isActive ? "rotate-[-45deg]" : "rotate-90"}
+      `}
+        ></span>
+      </button>
+    </div>
   );
 };
-
 ButtonMain.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
-};
-
+  isInputActive: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  closeTodo: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  isMoving: PropTypes.bool.isRequired
+  };
 export default ButtonMain;
