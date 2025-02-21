@@ -19,9 +19,7 @@ function TodoItem({ todo, toggleComplete, deleteTodo, editTodo }) {
   };
 
   return (
-    <li
-      className={`flex justify-between items-center p-2 border-b-2 text-tcolor w-full`}
-    >
+    <div className={`flex justify-between items-center p-2 border-b-2 text-tcolor w-full`}>
       {isEditing ? (
         <input
           ref={inputRef}
@@ -39,7 +37,7 @@ function TodoItem({ todo, toggleComplete, deleteTodo, editTodo }) {
         setIsEditing={setIsEditing}
         deleteTodo={deleteTodo}
       />
-    </li>
+    </div>
   );
 }
 
