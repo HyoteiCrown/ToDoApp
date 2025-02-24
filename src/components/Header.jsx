@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <header
-      className={`flex justify-center items-center h-20 transition-colors duration-150 ${theme.bg}`}
+      className={`flex gap-5 justify-center items-center h-20 transition-colors duration-150 ${theme.bg}`}
     >
       <h1
         className={`text-3xl font-bold transition-colors duration-150 ${theme.text}`}
@@ -17,7 +17,7 @@ export default function Header() {
       </h1>
       <button
         onClick={toggleTheme}
-        className={`ml-6 p-3 rounded-full
+        className={`p-3 rounded-full
           flex items-center justify-center
           transition-all duration-200
           group

@@ -15,7 +15,7 @@ export default function AcceptButton({ onClick }) {
                 before:-translate-x-full 
         ${
           isInputActive 
-            ? "w-12 h-12 ml-[-2rem] mr-10" 
+            ? "w-12 h-12 ml-[-rem] mr-10" 
             : "opacity-0 pointer-events-none"
         }
         ${
@@ -30,7 +30,7 @@ export default function AcceptButton({ onClick }) {
         }
         ${
           isMoving
-            ? "translate-x-10 transition-transform duration-500 ease"
+            ? "translate-x-6 transition-transform duration-500 ease"
             : "translate-x-0 transition-transform duration-300"
         }`}
     >

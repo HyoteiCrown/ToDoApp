@@ -18,7 +18,7 @@ const InputField = ({ value, onChange,placeholder }) => {
             value={value}
             onChange={onChange}
             placeholder={placeholder}
-            className={`p-2 w-2xs border-2 rounded-2xl transition-colors duration-150
+            className={`p-2 w-2xs border-2 rounded-2xl transition-colors duration-150 focus:outline-none
                 ${theme.bg} ${theme.text}
                 ${isDarkMode ? 'border-secondary-dark' : 'border-secondary'}
                 focus:scale-110

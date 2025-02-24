@@ -1,4 +1,6 @@
+@import "normalize.css";
 @import "tailwindcss";
+
 
 @theme {
   --color-primary: #2f5b55;
@@ -17,4 +19,35 @@
   --color-tcolor-dark: #ebf5f4;
   --color-background-dark: #091111;
   --color-background-gradient-dark: linear-gradient(160deg, #2f5b55, #b59d73);
+}
+
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-secondary-dark); 
+  border-radius: 10px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-accent); 
+  border-radius: 10px; 
+  border: 1px solid var(--color-secondary); 
+  height: 10px; 
+  -webkit-transition: background-color 0.3s; 
+  transition: background-color 0.3s; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary); 
+  -webkit-transition: background-color 0.3s; 
+  transition: background-color 0.3s; 
 }

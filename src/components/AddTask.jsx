@@ -41,7 +41,7 @@ function AddTask() {
 
   return (
     <section className="flex items-center gap-2 justify-center">
-      <div className="flex gap-3">
+      <div className="flex items-center gap-3">
         <InputField
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}

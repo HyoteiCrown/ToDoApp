@@ -6,19 +6,9 @@ const ButtonCircle = ({ children, onClick }) => {
     return (
         <button 
             className={`p-2 border-none rounded-full w-9 h-9 flex items-center justify-center relative overflow-hidden
-                ${
-                    isDarkMode
-                        ? "text-tcolor-dark bg-secondary-dark"
-                        : "text-tcolor bg-secondary"
-                }
-                before:absolute before:inset-0 before:transition-transform before:duration-300
-                before:-translate-x-full hover:before:translate-x-0
-                hover:scale-110 transition-transform duration-200
-                ${
-                    isDarkMode
-                        ? "before:bg-accent/80"
-                        : "before:bg-accent/60"
-                }
+                ${isDarkMode ? "text-tcolor-dark bg-secondary-dark" : "text-tcolor bg-secondary"}
+                transition-all duration-300 ease-in-out
+                hover:bg-accent hover:shadow-lg hover:-translate-y-1
             `} 
             onClick={onClick}
         >
